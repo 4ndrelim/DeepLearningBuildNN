@@ -88,43 +88,35 @@ class Network():
 
     
     """
-    Backpropagation algorithm.
-    Currently used as a blackbox. To be optimized.
+    Backpropagation algorithm. 
+    Express change in cost with respect to activation neuron 
     """
     def backprop(self, x, y):
-        """Return a tuple ``(nabla_b, nabla_w)`` representing the
-        gradient for the cost function C_x.  ``nabla_b`` and
-        ``nabla_w`` are layer-by-layer lists of numpy arrays, similar
-        to ``self.biases`` and ``self.weights``."""
         nabla_b = [np.zeros(b.shape) for b in self.biases]
         nabla_w = [np.zeros(w.shape) for w in self.weights]
-        # feedforward
+
+        activations = [x] # list representing all activations, layer by layer
+        pre_activations = [] # list representing output that has yet to undergo sigmoid, layer by layer
+
         activation = x
-        activations = [x] # list to store all the activations, layer by layer
-        zs = [] # list to store all the z vectors, layer by layer
         for b, w in zip(self.biases, self.weights):
-            z = np.dot(w, activation)+b
-            zs.append(z)
-            activation = sigmoid(z)
+            pre = np.dot(w, activation) + b
+            pre_activations.append(pre)
+            activation = sigmoid(pre)
             activations.append(activation)
-        # backward pass
-        delta = self.cost_derivative(activations[-1], y) * \
-            sigmoid_prime(zs[-1])
-        nabla_b[-1] = delta
-        nabla_w[-1] = np.dot(delta, activations[-2].transpose())
-        # Note that the variable l in the loop below is used a little
-        # differently to the notation in Chapter 2 of the book.  Here,
-        # l = 1 means the last layer of neurons, l = 2 is the
-        # second-last layer, and so on.  It's a renumbering of the
-        # scheme in the book, used here to take advantage of the fact
-        # that Python can use negative indices in lists.
-        for l in range(2, self.num_layers):
-            z = zs[-l]
-            sp = sigmoid_prime(z)
-            delta = np.dot(self.weights[-l+1].transpose(), delta) * sp
-            nabla_b[-l] = delta
-            nabla_w[-l] = np.dot(delta, activations[-l-1].transpose())
+            
+        # propagate backward
+        output_del = self.cost_derivative(activations[-1], y)
+        nabla_b[-1] = output_del * sigmoid_prime(pre_activations[-1])
+        nabla_w[-1] = np.dot(output_del * sigmoid_prime(pre_activations[-1]), activations[-2].transpose())
+       
+        for num_layer in range(2, self.num_layers): # input layers have no weights & biases
+            pre = pre_activations[-num_layer + 1]
+            output_del = np.dot(self.weights[-num_layer+1].transpose(), output_del * sigmoid_prime(pre))
+            nabla_b[-num_layer] = output_del * sigmoid_prime(pre_activations[-num_layer])
+            nabla_w[-num_layer] = np.dot(output_del * sigmoid_prime(pre_activations[-num_layer]), activations[-num_layer-1].transpose())
         return (nabla_b, nabla_w)
+    
 
     """
     returns the number of test inputs for which the neural network correctly classified
