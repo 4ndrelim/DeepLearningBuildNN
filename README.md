@@ -1,5 +1,7 @@
 # Neural network with MNIST database
 This repository contains code for construction of basic neural networks. 
+
+1st network: ~95% success rate.
 To view the results, run test.py in shell. The file is located at /src.
 
 Code is largely based on ["Neural Networks and Deep Learning"]
