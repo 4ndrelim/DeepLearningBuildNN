@@ -1,12 +1,12 @@
 # Build neural network with MNIST database
-This repository contains code for construction of basic neural networks from scratch. Dataset used is the MNIST digits database.
+This repository contains code for the construction of basic neural networks from scratch. Dataset used is the MNIST digits database.
 
 1st network: ~95% success rate.
 
 To view the results, run test.py in shell. The file is located at /my_implementation.
 
-Code is based on ["Neural Networks and Deep Learning"]
-(http://neuralnetworksanddeeplearning.com), albeit with some variation in implementation and amended to ensure compatability with Python 3.
+Referenced ["Neural Networks and Deep Learning"]
+(http://neuralnetworksanddeeplearning.com), code varies in implementation and amended to ensure compatability with Python 3.
 
 Original code samples by the author are found at /provided_code_old.
 
