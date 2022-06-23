@@ -1,7 +1,5 @@
 """
 My implementation of Stochastic Gradient Descent (SGD) algorithm. Gradients are calculated using backpropogation.
-Referenced sample code provided in /provided_code_old
-Updated for further optimization and ensure compatibility with Python 3
 """
 
 # Libraries
@@ -29,7 +27,7 @@ class Network():
         # num x num_prev matrix where the values in the jth row represents the weights 
         # connected to the jth neuron in the current output layer
         self.weights = [np.random.randn(num, num_prev) 
-                        for num, num_prev in zip(layers_size[1:], layers_size[:len(layers_size)])]
+                        for num, num_prev in zip(layers_size[1:], layers_size[:len(layers_size)-1])]
     
     """
     When the inputs are passed (as a (n,1) vector where n is the num of inputs), the output layer is computed, then the function 
