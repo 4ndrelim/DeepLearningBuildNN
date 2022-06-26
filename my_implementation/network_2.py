@@ -77,23 +77,50 @@ class Network(object):
     epochs: hyperparam that determines the number of complete passes through the training_data set
     mini_batch_size: number of training samples to work through before internal params (weights and biases) are updated 
     lr: learning_rate
-    test_data: evaluation of network after each epoch to track partial progress
+    reg_param: regularization parameter
+    eval_data: validation data
+    
     """
-    def SGD(self, training_data, epochs, mini_batch_size, lr, test_data = None):
+    def SGD(self, training_data, epochs, mini_batch_size, lr, reg_param,
+            eval_data=None,
+            monitor_eval_cost=False,
+            monitor_eval_acc=False,
+            minitor_trng_cost=False,
+            monitor_trng_acc=False):
+        
+        if eval_data:
+            n_eval_data = len(eval_data)
+        eval_cost, eval_acc = [], []
+        trng_cost, trng_acc = [], []
+        
         training_data = list(training_data) # for shuffling and finding len
         n = len(training_data)
         for i in range(epochs):
             random.shuffle(training_data) # randomly shuffles training data - prevents model from learning the order of training data/unwanted bias
             mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
             for batch in mini_batches:
-                self.update_mini_batch(batch, lr)
-            # done with training, evaluate if test_data provided
-            if test_data:
-                test_data = list(test_data)
-                n_test = len(test_data)
-                print(f"Epoch {i} completed: {self.evaluate(test_data) / n_test} accuracy")
-            else:
-                print(f"Epoch {i} completed.")
+                self.update_mini_batch(batch, lr, reg_param, len(training_data))
+            print(f"Epoch {i} completed.")
+            
+            if monitor_trng_cost:
+                cost = self.total_cost(training_data, reg_param)
+                trng_cost.append(cost)
+                print(f"Cost on training data: {cost}")
+            if monitor_trng_acc:
+                accuracy = self.accuracy(training_data, convert=True)
+                trng_accuracy.append(accuracy)
+                print(f"Accuracy on training data: {accuracy} / {n}")
+            if monitor_eval_cost:
+                cost = self.total_cost(eval_data, reg_param, convert=True)
+                eval_cost.append(cost)
+                print(f"Cost on evaluation data: {cost}")
+            if monitor_eval_acc:
+                accuracy = self.accuracy(eval_data)
+                eval_acc.append(accuracy)
+                print(f"Accuracy on evaluation data: {self.accuracy(eval_data)} / {n_data}")    
+        return eval_cost, eval_acc, \
+            trng_cost, trng_acc
+            
 
     """
     Determines the changes to weights and biases using gradient descent then,
