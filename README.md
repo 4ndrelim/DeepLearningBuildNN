@@ -5,10 +5,12 @@ This repository contains code for the construction of basic neural networks from
 
 To view the results, run test.py in shell. The file is located at /my_implementation.
 
-Referenced ["Neural Networks and Deep Learning"]
-(http://neuralnetworksanddeeplearning.com), code varies in implementation and amended to ensure compatability with Python 3.
-
-Original code samples by the author are found at /provided_code_old.
+Referenced ["Neural Networks and Deep Learning"](http://neuralnetworksanddeeplearning.com).
+Implementations of some parts may be different from author's to ensure:
+a) Further optimization
+b) Additional features
+c) Compatiblity with Python3
+d) My own learning!
 
 
 ## License
