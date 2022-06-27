@@ -73,13 +73,21 @@ class Network(object):
 
     """
     Trains the neural network using mini-batch stochastic gradient descent.
-    training_data: list of (x, y) tuples representing inputs and desired outputs
-    epochs: hyperparam that determines the number of complete passes through the training_data set
-    mini_batch_size: number of training samples to work through before internal params (weights and biases) are updated 
-    lr: learning_rate
-    reg_param: regularization parameter
-    eval_data: validation data
+    Monitor the cost and accuracy on either the eval_data or trng_data by setting the correct flags.
+
+    training_data  : list of (x, y) tuples representing inputs and desired outputs
+    epochs         : hyperparam that determines the number of complete passes through the training_data set
+    mini_batch_size: number of training samples to work through before internal params (weights and biases)
+                     are updated 
+    lr             : learning_rate
+    reg_param      : regularization parameter
+    eval_data      : validation data
     
+    return         : tuple containing 4 lists, each element of a list represents the per-epoch
+                     1. cost on eval_data
+                     2. accuracy on eval_data
+                     3. cost on trng_data
+                     4. accuracy on trng_data
     """
     def SGD(self, training_data, epochs, mini_batch_size, lr, reg_param,
             eval_data=None,
@@ -118,15 +126,17 @@ class Network(object):
                 accuracy = self.accuracy(eval_data)
                 eval_acc.append(accuracy)
                 print(f"Accuracy on evaluation data: {self.accuracy(eval_data)} / {n_data}")    
-        return eval_cost, eval_acc, \
-            trng_cost, trng_acc
+        return (eval_cost, eval_acc, trng_cost, trng_acc)
             
 
     """
     Determines the changes to weights and biases using gradient descent then,
-    updates weights and biases with back propogation to a single mini batch with learning rate lr.
+    updates weights and biases with back propogation to a single mini batch with L2 regularization:
+    a) learning rate, lr
+    b) regularization parameter, reg_param
+    c) total size of trng_data set, n
     """
-    def update_mini_batch(self, mini_batch, lr):
+    def update_mini_batch(self, mini_batch, lr, reg_param, n):
         total_nabla_biases = [np.zeros(biases.shape) for biases in self.biases]
         total_nabla_weights = [np.zeros(weights.shape) for weights in self.weights]
         for (x, y) in mini_batch:
@@ -139,7 +149,37 @@ class Network(object):
         for b, tnb in zip(self.biases, total_nabla_biases):
             b -= lr * tnb / size_mini
         for w, tnw in zip(self.weights, total_nabla_weights):
-            w -= lr * tnw / size_mini
+            w -= w*lr*reg_param/n - lr*tnw/size_mini
+            
+    """
+    Backpropagation algorithm. 
+    Express change in cost with respect to activation neuron 
+    """
+    def backprop(self, x, y):
+        nabla_b = [np.zeros(b.shape) for b in self.biases]
+        nabla_w = [np.zeros(w.shape) for w in self.weights]
+
+        activations = [x] # list representing all activations, layer by layer
+        pre_activations = [] # list representing output that has yet to undergo sigmoid, layer by layer
+
+        activation = x
+        for b, w in zip(self.biases, self.weights):
+            pre = np.dot(w, activation) + b
+            pre_activations.append(pre)
+            activation = sigmoid(pre)
+            activations.append(activation)
+            
+        # propagate backward
+        output_del = self.cost_derivative(activations[-1], y)
+        nabla_b[-1] = output_del * sigmoid_prime(pre_activations[-1])
+        nabla_w[-1] = np.dot(output_del * sigmoid_prime(pre_activations[-1]), activations[-2].transpose())
+       
+        for num_layer in range(2, self.num_layers): # input layers have no weights & biases
+            pre = pre_activations[-num_layer + 1]
+            output_del = np.dot(self.weights[-num_layer+1].transpose(), output_del * sigmoid_prime(pre))
+            nabla_b[-num_layer] = output_del * sigmoid_prime(pre_activations[-num_layer])
+            nabla_w[-num_layer] = np.dot(output_del * sigmoid_prime(pre_activations[-num_layer]), activations[-num_layer-1].transpose())
+        return (nabla_b, nabla_w)
 
     
         
