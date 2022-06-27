@@ -148,10 +148,11 @@ class Network(object):
             for tnw, nw in zip(total_nabla_weights, nabla_weights):
                 tnw += nw
         size_mini = len(mini_batch)
-        for b, tnb in zip(self.biases, total_nabla_biases):
-            b -= lr*tnb/size_mini
-        for w, tnw in zip(self.weights, total_nabla_weights):
-            w -= w*lr*reg_param/n-lr*tnw/size_mini
+        
+        self.biases  = [b - tnb*(lr/size_mini)
+                        for b, tnb in zip(self.biases, total_nabla_biases)]
+        self.weights = [(1-lr*(reg_param/n))*w - tnw*(lr/size_mini)
+                        for w, tnw in zip(self.weights, total_nabla_weights)]
             
     """
     Backpropagation algorithm. 
