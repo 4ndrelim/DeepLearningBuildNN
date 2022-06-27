@@ -141,7 +141,7 @@ class Network(object):
         total_nabla_biases = [np.zeros(biases.shape) for biases in self.biases]
         total_nabla_weights = [np.zeros(weights.shape) for weights in self.weights]
         for x, y in mini_batch:
-            nabla_biases, nabla_weights = self.backprop(x, y) # get the change in biases and weights this training input "wishes to see"
+            (nabla_biases, nabla_weights) = self.backprop(x, y) # get the change in biases and weights this training input "wishes to see"
             for tnb, nb in zip(total_nabla_biases, nabla_biases):
                 tnb += nb
             for tnw, nw in zip(total_nabla_weights, nabla_weights):
@@ -235,6 +235,31 @@ class Network(object):
             cost += 0.5*(reg_param/len(data))*sum(np.linalg.norm(w)**2 for w in self.weights) 
         return cost
 
+    def save(self, filename):
+        """
+        Saves a trained neural network to the file named <filename>.
+        """
+        data = {"sizes": self.sizes,
+                "weights": [weight.tolist() for weight in self.weights],
+                "biases": [bias.tolist() for bias in self.biases],
+                "cost": str(self.cost.__name__)}
+        f = open(filename, "w")
+        json.dump(data, f)
+        f.close()
+
+
+"""
+Load a trained neural network
+"""
+def load(filename):
+    f = open(filename, "r")
+    data = json.load(f)
+    f.close()
+    cost = getattr(sys.modules[__name__], data["cost"])
+    network = Network(data["sizes"], cost=cost)
+    network.weights = [np.array(weight) for weight in data["weights"]]
+    network.biases = [np.array(bias) for bias in data["biases"]]
+    return network
 
 
 def vectorized_result(j):
