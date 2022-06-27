@@ -26,7 +26,7 @@ class QuadraticCost(object):
 
 class CrossEntropyCost(object):
     @staticmethod
-    def fn(a, y):
+    def function(a, y):
         # np.nan_to_num is used to ensure numerical
         # stability. The np.nan_to_num ensures NaN 
         # values are converted to (0.0).
@@ -47,28 +47,28 @@ class Network(object):
         The biases and weights for the network are initialized using default_weight_initializer.
 
         """
-        self.num_layers = len(sizes)
+        self.num_layers = len(layers_size)
         self.sizes = layers_size
-        self.default_weight_initializer()
+        self.weight_initializer()
         self.cost=cost
 
     def weight_initializer(self):
         self.biases = [np.random.randn(num, 1) for num in self.sizes[1:]]
         # weights are initialised similarly as in network 1.0, albeit now with scaling factor 1/N(in)
         self.weights = [np.random.randn(num, num_prev)/np.sqrt(num_prev)
-                        for num, num_prev in zip(self.sizes[1:], self.sizes[:len(self.sizes)-1])]
+                        for num, num_prev in zip(self.sizes[1:], self.sizes[:-1])]
 
     def old_initializer(self):
         self.biases = [np.random.randn(num, 1) for num in self.sizes[1:]]
         self.weights = [np.random.randn(num, num_prev)
-                        for num, num_prev in zip(self.sizes[1:], self.sizes[:len(self.sizes)-1])]
+                        for num, num_prev in zip(self.sizes[1:], self.sizes[:-1])]
 
     def feedForward(self, layer):
         for biases, weights in zip(self.biases, self.weights):
             # first calculate the matrix product of weights associated to the current layer applied to the preceding layer
             # add the biases
             # pass the vector into the sigmoid function (the function will be applied on each input)
-            layer = sigmoid(np.dot(weights, layer) + biases)
+            layer = sigmoid(np.dot(weights, layer)+biases)
         return layer
 
     """
@@ -93,10 +93,11 @@ class Network(object):
             eval_data=None,
             monitor_eval_cost=False,
             monitor_eval_acc=False,
-            minitor_trng_cost=False,
+            monitor_trng_cost=False,
             monitor_trng_acc=False):
         
         if eval_data:
+            eval_data = list(eval_data)
             n_eval_data = len(eval_data)
         eval_cost, eval_acc = [], []
         trng_cost, trng_acc = [], []
@@ -116,7 +117,7 @@ class Network(object):
                 print(f"Cost on training data: {cost}")
             if monitor_trng_acc:
                 accuracy = self.accuracy(training_data, convert=True)
-                trng_accuracy.append(accuracy)
+                trng_acc.append(accuracy)
                 print(f"Accuracy on training data: {accuracy} / {n}")
             if monitor_eval_cost:
                 cost = self.total_cost(eval_data, reg_param, convert=True)
@@ -125,8 +126,9 @@ class Network(object):
             if monitor_eval_acc:
                 accuracy = self.accuracy(eval_data)
                 eval_acc.append(accuracy)
-                print(f"Accuracy on evaluation data: {self.accuracy(eval_data)} / {n_data}")    
-        return (eval_cost, eval_acc, trng_cost, trng_acc)
+                print(f"Accuracy on evaluation data: {self.accuracy(eval_data)} / {n_eval_data}")    
+        return eval_cost, eval_acc, \
+            trng_cost, trng_acc
             
 
     """
@@ -139,17 +141,17 @@ class Network(object):
     def update_mini_batch(self, mini_batch, lr, reg_param, n):
         total_nabla_biases = [np.zeros(biases.shape) for biases in self.biases]
         total_nabla_weights = [np.zeros(weights.shape) for weights in self.weights]
-        for (x, y) in mini_batch:
-            (nabla_biases, nabla_weights) = self.backprop(x, y) # get the change in biases and weights this training input "wishes to see"
+        for x, y in mini_batch:
+            nabla_biases, nabla_weights = self.backprop(x, y) # get the change in biases and weights this training input "wishes to see"
             for tnb, nb in zip(total_nabla_biases, nabla_biases):
                 tnb += nb
             for tnw, nw in zip(total_nabla_weights, nabla_weights):
                 tnw += nw
         size_mini = len(mini_batch)
         for b, tnb in zip(self.biases, total_nabla_biases):
-            b -= lr * tnb / size_mini
+            b -= lr*tnb/size_mini
         for w, tnw in zip(self.weights, total_nabla_weights):
-            w -= w*lr*reg_param/n - lr*tnw/size_mini
+            w -= w*lr*reg_param/n-lr*tnw/size_mini
             
     """
     Backpropagation algorithm. 
@@ -210,10 +212,10 @@ class Network(object):
         
         """
         if convert:
-            results = [(np.argmax(self.feedforward(x)), np.argmax(y))
+            results = [(np.argmax(self.feedForward(x)), np.argmax(y))
                        for (x, y) in data]
         else:
-            results = [(np.argmax(self.feedforward(x)), y)
+            results = [(np.argmax(self.feedForward(x)), y)
                         for (x, y) in data]
         return sum(int(x == y) for (x, y) in results)
 
@@ -229,9 +231,8 @@ class Network(object):
         for x, y in data:
             a = self.feedforward(x)
             if convert: y = vectorized_result(y)
-            cost += self.cost.function(a, y)/len(data)
-        cost += 0.5*(reg_param/len(data))*sum(
-            np.linalg.norm(w)**2 for w in self.weights)
+            cost += (self.cost).function(a, y)/len(data)
+            cost += 0.5*(reg_param/len(data))*sum(np.linalg.norm(w)**2 for w in self.weights) 
         return cost
 
 
@@ -253,13 +254,17 @@ Very negative inputs tend to 0
 Very positive inputs tend to 1
 """
 def sigmoid(x):
-    return 1.0 / (1.0 + np.exp(-x))
+    return 1.0/(1.0+np.exp(-x))
+    # ????? weird stuff if u have spaces in your formula
+    # 1.0 / (1.0 + np.exp(-x))
 
 """
 derivative function of sigmoid
 """
 def sigmoid_prime(x):
-    return sigmoid(x) * (1-sigmoid(x))
+    return sigmoid(x)*(1-sigmoid(x))
+    # ????? weird stuff if u have spaces in your formula
+    # sigmoid(x) * (1-sigmoid(x))
 
 
 
