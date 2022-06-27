@@ -127,8 +127,7 @@ class Network(object):
                 accuracy = self.accuracy(eval_data)
                 eval_acc.append(accuracy)
                 print(f"Accuracy on evaluation data: {self.accuracy(eval_data)} / {n_eval_data}")    
-        return eval_cost, eval_acc, \
-            trng_cost, trng_acc
+        return (eval_cost, eval_acc, trng_cost, trng_acc)
             
 
     """
@@ -255,17 +254,13 @@ Very negative inputs tend to 0
 Very positive inputs tend to 1
 """
 def sigmoid(x):
-    return 1.0/(1.0+np.exp(-x))
-    # ????? weird stuff if u have spaces in your formula
-    # 1.0 / (1.0 + np.exp(-x))
+    return 1.0 / (1.0 + np.exp(-x))
 
 """
 derivative function of sigmoid
 """
 def sigmoid_prime(x):
-    return sigmoid(x)*(1-sigmoid(x))
-    # ????? weird stuff if u have spaces in your formula
-    # sigmoid(x) * (1-sigmoid(x))
+    return sigmoid(x) * (1 - sigmoid(x))
 
 
 
