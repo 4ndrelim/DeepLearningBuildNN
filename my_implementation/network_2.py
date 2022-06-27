@@ -182,7 +182,70 @@ class Network(object):
         return (nabla_b, nabla_w)
 
     
+    def accuracy(self, data, convert=False):
+        """
+        Return the number of inputs for which the neural
+        network outputs the correct result.
+        The neural network's output is assumed to be the index of whichever
+        neuron in the final layer has the highest activation.
+
+        <convert> flag:
+        a) should be set to False if the data set is
+        validation or test data (the usual case),
+        b) and to True if the data set is the training data.
+
+        ***From original author***
+        The need for this flag arises due to differences in the way the results
+        ``y`` are represented in the different data sets.  In particular, it
+        flags whether we need to convert between the different
+        representations.  It may seem strange to use different
+        representations for the different data sets.  Why not use the
+        same representation for all three data sets?  It's done for
+        efficiency reasons -- the program usually evaluates the cost
+        on the training data and the accuracy on other data sets.
+        These are different types of computations, and using different
+        representations speeds things up.  More details on the
+        representations can be found in
+        mnist_loader.load_data_wrapper.
         
+        """
+        if convert:
+            results = [(np.argmax(self.feedforward(x)), np.argmax(y))
+                       for (x, y) in data]
+        else:
+            results = [(np.argmax(self.feedforward(x)), y)
+                        for (x, y) in data]
+        return sum(int(x == y) for (x, y) in results)
+
+
+    def total_cost(self, data, reg_param, convert=False):
+        """
+        Return the total cost for the data set.
+        Similar to above, the flag <convert> should be set
+        a) to False if the data set is the training data (the usual case),
+        b) and to True if the data set is the validation or test data.
+        """
+        cost = 0.0
+        for x, y in data:
+            a = self.feedforward(x)
+            if convert: y = vectorized_result(y)
+            cost += self.cost.function(a, y)/len(data)
+        cost += 0.5*(reg_param/len(data))*sum(
+            np.linalg.norm(w)**2 for w in self.weights)
+        return cost
+
+
+
+def vectorized_result(j):
+    """
+    Return a 10-dimensional unit vector with a 1.0 in the jth position
+    and zeroes elsewhere.
+    This is used to convert a digit (0...9)
+    into a corresponding desired output from the neural network.
+    """
+    e = np.zeros((10, 1))
+    e[j] = 1.0
+    return e
 
 """
 Function that squishes inputs to a value between 0 and 1
