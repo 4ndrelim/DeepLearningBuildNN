@@ -1,5 +1,6 @@
-"""weight_initialization 
-~~~~~~~~~~~~~~~~~~~~~~~~
+"""
+Weight Initialization Comparison
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 This program shows how weight initialization affects training.
 In particular, we'll plot out how the classification accuracies improve using:
@@ -18,7 +19,7 @@ import random
 import sys
 
 # My library
-sys.path.append('../../')
+sys.path.append('../../') # required if compare() was run in this script
 import mnist_loader
 import network_2
 
@@ -27,16 +28,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 # Constants
-# note you may wish to toggle display settings/scale
+# Note you may wish to toggle display settings/scale
 # on the y-axis should the results go out of range
 NUM_EPOCHS = 30
 LEARNING_RATE = 0.4
-HIDDEN_LAYER = 30
+HIDDEN_LAYER = [30] # list of layers 
 REG_PARAM = 5.0
 MINI_BATCH_SIZE = 10
 PLOT_SCALE_FACTOR = None # equals to size of validation data
 
-def main(filename):
+def compare(filename):
     run_network(filename)
     make_plot(filename)
                        
@@ -61,8 +62,9 @@ def run_network(filename):
 
     # get size of validation_data. This will be used to approrpiately scale plot
     PLOT_SCALE_FACTOR = len(validation_data)
-    
-    network = network_2.Network([784, HIDDEN_LAYER, MINI_BATCH_SIZE], cost=network_2.CrossEntropyCost)
+
+    layers = [784] + HIDDEN_LAYER + [10]
+    network = network_2.Network(layers, cost=network_2.CrossEntropyCost)
     print("Train the network using the default (scaled) starting weights.")
     default_vc, default_va, default_tc, default_ta \
         = network.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE, LEARNING_RATE, reg_param=REG_PARAM,
@@ -115,6 +117,3 @@ def make_plot(filename):
     plt.legend(loc="lower right")
     plt.show()
 
-# n here is the number of neurons in the middle hidden layer
-if __name__ == "__main__":
-    main('my_model')
