@@ -47,9 +47,9 @@ class Network():
     epochs: hyperparam that determines the number of complete passes through the training_data set
     mini_batch_size: number of training samples to work through before internal params (weights and biases) are updated 
     lr: learning_rate
-    test_data: evaluation of network after each epoch to track partial progress
+    validation_data: evaluation of network after each epoch to track partial progress
     """
-    def SGD(self, training_data, epochs, mini_batch_size, lr, test_data = None):
+    def SGD(self, training_data, epochs, mini_batch_size, lr, validation_data = None):
         training_data = list(training_data) # for shuffling and finding len
         n = len(training_data)
         for i in range(epochs):
@@ -57,13 +57,13 @@ class Network():
             mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
             for batch in mini_batches:
                 self.update_mini_batch(batch, lr)
-            # done with training, evaluate if test_data provided
-            if test_data:
-                test_data = list(test_data)
-                n_test = len(test_data)
-                print(f"Epoch {i} completed: {self.evaluate(test_data) / n_test} accuracy")
+            # done with training, evaluate if validation_data provided
+            if validation_data:
+                validation_data = list(validation_data)
+                n_validate = len(validation_data)
+                print(f"Epoch {i+1} completed: {self.evaluate(validation_data) / n_validate} accuracy on validation dataset")
             else:
-                print(f"Epoch {i} completed.")
+                print(f"Epoch {i+1} completed.")
 
     """
     Determines the changes to weights and biases using gradient descent then,
@@ -117,15 +117,15 @@ class Network():
     
 
     """
-    returns the number of test inputs for which the neural network correctly classified
+    returns the number of data inputs which was correctly classified by the neural network
     """
-    def evaluate(self, test_data):
+    def evaluate(self, data):
         # in the final output layer, the neoron with the highest activation value 
         # is taken to be the classification result. Note that this result is also
         # represented by its index in the output layer
-        test_results = [(np.argmax(self.feedForward(x)), y)
-                        for (x, y) in test_data]
-        return sum(int(x==y) for (x,y) in test_results)
+        results = [(np.argmax(self.feedForward(x)), y)
+                        for (x, y) in data]
+        return sum(int(x==y) for (x,y) in results)
     
     def cost_derivative(self, output, actual):
         return 2 * (output-actual)
