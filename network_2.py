@@ -223,7 +223,7 @@ class Network(object):
     def total_cost(self, data, reg_param, convert=False):
         """
         Return the total cost for the data set.
-        Similar to above, the flag <convert> should be set
+        The flag <convert> should be set
         a) to False if the data set is the training data (the usual case),
         b) and to True if the data set is the validation or test data.
         """
