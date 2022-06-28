@@ -97,19 +97,19 @@ class Network(object):
             monitor_trng_acc=False):
         
         if eval_data:
-            eval_data = list(eval_data)
+            eval_data = list(eval_data) # if it is given in zipped form
             n_eval_data = len(eval_data)
         eval_cost, eval_acc = [], []
         trng_cost, trng_acc = [], []
         
-        training_data = list(training_data) # for shuffling and finding len
+        training_data = list(training_data) # if orginally zipped
         n = len(training_data)
         for i in range(epochs):
             random.shuffle(training_data) # randomly shuffles training data - prevents model from learning the order of training data/unwanted bias
             mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
             for batch in mini_batches:
                 self.update_mini_batch(batch, lr, reg_param, len(training_data))
-            print(f"Epoch {i} completed.")
+            print(f"Epoch {i+1} completed.")
             
             if monitor_trng_cost:
                 cost = self.total_cost(training_data, reg_param)
