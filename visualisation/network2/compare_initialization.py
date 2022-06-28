@@ -93,7 +93,6 @@ def make_plot(filename):
     Load the results from the file ``filename``, and generate the
     corresponding plot.
     """
-    print(PLOT_SCALE_FACTOR)
     f = open(filename, "r")
     results = json.load(f)
     f.close()
