@@ -52,6 +52,7 @@ class Network():
     def SGD(self, training_data, epochs, mini_batch_size, lr, validation_data = None):
         training_data = list(training_data) # for shuffling and finding len
         n = len(training_data)
+        validation_results = []
         for i in range(epochs):
             random.shuffle(training_data) # randomly shuffles training data - prevents model from learning the order of training data/unwanted bias
             mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
@@ -61,9 +62,12 @@ class Network():
             if validation_data:
                 validation_data = list(validation_data)
                 n_validate = len(validation_data)
-                print(f"Epoch {i+1} completed: {self.evaluate(validation_data) / n_validate} accuracy on validation dataset")
+                accuracy = self.evaluate(validation_data)
+                validation_results.append(accuracy)
+                print(f"Epoch {i+1} completed: {accuracy / n_validate} accuracy on validation dataset")
             else:
                 print(f"Epoch {i+1} completed.")
+        return validation_results
 
     """
     Determines the changes to weights and biases using gradient descent then,
