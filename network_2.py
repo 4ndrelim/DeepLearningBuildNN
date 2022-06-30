@@ -102,6 +102,10 @@ class Network(object):
             n_eval_data = len(eval_data)
         eval_cost, eval_acc = [], []
         trng_cost, trng_acc = [], []
+
+        # implement early stopping
+        best_accuracy = 1
+        unchangedEpochs = 0
         
         training_data = list(training_data) # if orginally zipped
         n = len(training_data)
@@ -135,15 +139,13 @@ class Network(object):
             # b) accuracy on validation dataset
             # latter takes precedence and will be used if both are computed
             
-            best_accuracy = 1
-            unchangedEpochs = 0
             if early_stopping > 0: # 0 => do not aply early stopping
                 if accuracy > best_accuracy:
                     best_accuracy = accuracy
                     unchangedEpochs = 0
                 else:
                     unchangedEpochs += 1
-                if unchangedEpochs == early_stopping:
+                if unchangedEpochs >= early_stopping:
                     return (eval_cost, eval_acc, trng_cost, trng_acc)
         
         
