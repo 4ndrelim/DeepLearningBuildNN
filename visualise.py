@@ -1,7 +1,7 @@
 import sys
 
 
-print("Note: Graphs will be concurrently displayed at the end of all the below execution.\nYou should only uncomment parts you'd like to observe.")
+print("Note: Graphs will be concurrently displayed at the end of all the below execution.\nYou should only uncomment parts you'd like to observe.\n\n")
 FILENAME = "my_model_results"
 
 
@@ -25,3 +25,13 @@ path = "./visualisation/network2/"
 path = path + FILENAME
 cmp_init.compare(path)
 print("Note: Accuracy results of trained model is saved at visualisation/network2/\n\n")
+
+"""
+Network 2.0 Effects of Weight Initialization
+"""
+sys.path.append("./visualisation/network2/observe_early_stopping")
+import early_stop
+path = "./visualisation/network2/observe_early_stopping/"
+path = path + FILENAME
+early_stop.plot_network_with_early_stopping(path, early_stop = 6)
+print("Note: Accuracy results of trained model is saved at visualisation/network2/observe_early_stopping/\n\n")
