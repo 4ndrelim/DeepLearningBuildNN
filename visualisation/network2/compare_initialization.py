@@ -65,20 +65,22 @@ def run_network(filename):
 
     layers = [784] + HIDDEN_LAYER + [10]
     network = network_2.Network(layers, cost=network_2.CrossEntropyCost)
-    print("Train the network using the default (scaled) starting weights.")
+    print("~Train Network 2 using the default (scaled) starting weights~")
     default_vc, default_va, default_tc, default_ta \
         = network.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE, LEARNING_RATE, reg_param=REG_PARAM,
                   eval_data=validation_data, 
                   monitor_eval_acc=True)
+    print(f"\nAccuracy on test set with default weights initialization: {100.0 * network.accuracy(test_data)/len(test_data)}%")
 
     # zip object has been unzipped and used so re-initialize
     # training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
-    print("\nTrain the network using the large (unscaled)/old starting weights.")
+    print("\n~Train Network 2 using the large (unscaled)/old starting weights~")
     network.old_initializer()
     large_vc, large_va, large_tc, large_ta \
         = network.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE, LEARNING_RATE, reg_param=REG_PARAM,
                   eval_data=validation_data, 
                   monitor_eval_acc=True)
+    print(f"\nAccuracy on test set with large weights initialization: {100.0 * network.accuracy(test_data)/len(test_data)}%")
     
     f = open(filename, "w")
     json.dump({"default_initialization":
@@ -105,14 +107,15 @@ def make_plot(filename):
     large_va = [100.0 * x/PLOT_SCALE_FACTOR for x in large_va]
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(np.arange(0, NUM_EPOCHS, 1), large_va, color='#2A6EA6',
+    ax.plot(np.arange(0, NUM_EPOCHS, 1), large_va, color='#FFA933',
             label="Old approach to weight initialization")
-    ax.plot(np.arange(0, NUM_EPOCHS, 1), default_va, color='#FFA933', 
+    ax.plot(np.arange(0, NUM_EPOCHS, 1), default_va, color='#2A6EA6', 
             label="New approach to weight initialization")
     ax.set_xlim([0, NUM_EPOCHS])
     ax.set_xlabel('Epoch')
     ax.set_ylim([85, 100])
     ax.set_title('Classification accuracy')
     plt.legend(loc="lower right")
-    plt.show()
+    fig.canvas.set_window_title('network2_weightInitCompare')
+    plt.show(block=False)
 

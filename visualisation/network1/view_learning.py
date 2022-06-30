@@ -55,10 +55,11 @@ def run_and_plot_network(filename):
 
     layers = [784] + HIDDEN_LAYER + [10]
     net = network.Network(layers)
-    print("~Training network~")
+    print("~Training Network 1~")
     validation_results = net.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE,
                                     LEARNING_RATE, validation_data=validation_data)
 
+    print(f"\nAccuracy on test set: {100 * net.evaluate(test_data)/len(test_data)}%")
     
     f = open(filename, "w")
     json.dump({"accuracies": validation_results}, f)
@@ -87,5 +88,6 @@ def make_plot(filename):
     ax.set_ylim([85, 100])
     ax.set_title('Classification accuracy')
     plt.legend(loc="lower right")
-    plt.show()
+    fig.canvas.set_window_title('network1_accuracy')
+    plt.show(block=False)
 
