@@ -94,7 +94,8 @@ class Network(object):
             monitor_eval_cost=False,
             monitor_eval_acc=False,
             monitor_trng_cost=False,
-            monitor_trng_acc=False):
+            monitor_trng_acc=False,
+            early_stopping=0):
         
         if eval_data:
             eval_data = list(eval_data) # if it is given in zipped form
@@ -127,6 +128,25 @@ class Network(object):
                 accuracy = self.accuracy(eval_data)
                 eval_acc.append(accuracy)
                 print(f"Accuracy on evaluation data: {self.accuracy(eval_data)} / {n_eval_data}")    
+
+            # Implement early stopping
+            # note that accuracy here could refer to either
+            # a) accuracy on training dataset or
+            # b) accuracy on validation dataset
+            # latter takes precedence and will be used if both are computed
+            
+            best_accuracy = 1
+            unchangedEpochs = 0
+            if early_stopping > 0: # 0 => do not aply early stopping
+                if accuracy > best_accuracy:
+                    best_accuracy = accuracy
+                    unchangedEpochs = 0
+                else:
+                    unchangedEpochs += 1
+                if unchangedEpochs == early_stopping:
+                    return (eval_cost, eval_acc, trng_cost, trng_acc)
+        
+        
         return (eval_cost, eval_acc, trng_cost, trng_acc)
             
 
