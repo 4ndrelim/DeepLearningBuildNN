@@ -1,7 +1,16 @@
 import sys
 
+"""
+A program to visualise the effects of certain features/results of the neural network
 
-print("Note: Graphs will be concurrently displayed at the end of all the below execution.\nYou should only uncomment parts you'd like to observe.\n\n")
+NOTE:
+1. GRAPHS WILL BE CONCURRENTLY DISPLAYED AT THE END OF ALL THE EXECUTON. COMMENT OUT PARTS YOU DO NOT WISH TO OBSERVE TO SAVE TIME.
+2. Default hyperparameters are specified in the hyperparams.py file in the root folder.
+3. If you are running more than 1 network and wish to customize hyperparams for each network, uncomment the code that handles re-writing
+   hyperparameters in the respective program files in visualisation/ folder.
+"""
+
+
 FILENAME = "my_model_results"
 
 
@@ -26,12 +35,13 @@ path = path + FILENAME
 cmp_init.compare(path)
 print("Note: Accuracy results of trained model is saved at visualisation/network2/\n\n")
 
+
 """
-Network 2.0 Effects of Weight Initialization
+Network 2.0 Use of early stopping to identify suitable number of epochs
 """
 sys.path.append("./visualisation/network2/observe_early_stopping")
 import early_stop
 path = "./visualisation/network2/observe_early_stopping/"
 path = path + FILENAME
-early_stop.plot_network_with_early_stopping(path, early_stop = 6)
+early_stop.plot_network_with_early_stopping(path)
 print("Note: Accuracy results of trained model is saved at visualisation/network2/observe_early_stopping/\n\n")
