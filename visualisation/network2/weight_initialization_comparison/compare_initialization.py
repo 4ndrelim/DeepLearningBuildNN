@@ -19,7 +19,7 @@ import random
 import sys
 
 # My library
-sys.path.append('../../') # required if compare() was run in this script
+sys.path.append('../../../') # required if compare() was run in this script
 import mnist_loader
 import network_2
 from hyperparams import NUM_EPOCHS, LEARNING_RATE, LAYERS, REG_PARAM, MINI_BATCH_SIZE

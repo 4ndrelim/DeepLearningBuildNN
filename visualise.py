@@ -28,9 +28,9 @@ print("Note: Accuracy results of trained model is saved at visualisation/network
 """
 Network 2.0 Effects of Weight Initialization
 """
-sys.path.append("./visualisation/network2/")
+sys.path.append("./visualisation/network2/weight_initialization_comparison/")
 import compare_initialization as cmp_init
-path = "./visualisation/network2/"
+path = "./visualisation/network2/weight_initialization_comparison/"
 path = path + FILENAME
 cmp_init.compare(path)
 print("Note: Accuracy results of trained model is saved at visualisation/network2/\n\n")
