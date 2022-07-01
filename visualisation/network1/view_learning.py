@@ -93,5 +93,5 @@ def make_plot(filename):
     ax.set_title('Classification accuracy')
     plt.legend(loc="lower right")
     fig.canvas.set_window_title('network1_accuracy')
-    plt.show(block=True)
+    plt.show(block=False)
 
