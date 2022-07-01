@@ -254,7 +254,7 @@ class Network(object):
             a = self.feedForward(x)
             if convert: y = vectorized_result(y)
             cost += (self.cost).function(a, y)/len(data)
-            cost += 0.5*(reg_param/len(data))*sum(np.linalg.norm(w)**2 for w in self.weights) 
+        cost += 0.5*(reg_param/len(data))*sum(np.linalg.norm(w)**2 for w in self.weights) 
         return cost
 
     def save(self, filename):
