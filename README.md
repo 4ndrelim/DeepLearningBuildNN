@@ -34,9 +34,12 @@ Conventional implementation of a neural network with sigmoid function and quadra
 
 
 
-## Resources
+## Resources & Credits
 Referenced ["Neural Networks and Deep Learning"](http://neuralnetworksanddeeplearning.com).
-Implementation of some parts may differ from author's to ensure:
+
+**Note**: Some of the contents in this repository was originally forked from ["neural-networks-and-deep-learning"](https://github.com/mnielsen/neural-networks-and-deep-learning) by Michael Nielson but all the files were eventually shifted to a personal repository given vast personal changes.
+
+Implementation of some parts may differ significantly from author's to ensure:
 
 a) Further optimization
 
