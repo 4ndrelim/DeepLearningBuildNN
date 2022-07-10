@@ -65,7 +65,7 @@ def run_networks(file_name, learning_rates):
 
     results = [] # stores results of each network
     for lr in learning_rates:
-        print("\nTrain a network using learning_rate = "+str(lr))
+        print("\nTrain a network (other hyperparams are same as in network 2.1) using learning_rate = "+str(lr))
         network = network_2.Network(LAYERS, cost=network_2.CrossEntropyCost)
         results.append(
             network.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE, lr,

@@ -58,7 +58,7 @@ def run_and_plot_network(filename):
     PLOT_SCALE_FACTOR = len(validation_data)
 
     net = network.Network(LAYERS)
-    print("~Training Network 1~")
+    print("~Training Network 1.0~")
     validation_results = net.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE,
                                     LEARNING_RATE, validation_data=validation_data)
 

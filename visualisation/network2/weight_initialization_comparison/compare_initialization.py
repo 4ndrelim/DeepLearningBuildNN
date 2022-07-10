@@ -70,7 +70,7 @@ def run_network(filename):
     PLOT_SCALE_FACTOR = len(validation_data)
 
     network = network_2.Network(LAYERS, cost=network_2.CrossEntropyCost)
-    print("~Train Network 2 with cross-entropy cost fn and regularization using the default (scaled) starting weights~")
+    print("~Train Network 2.1 with cross-entropy cost fn and L2 regularization using the default (scaled) starting weights~")
     default_vc, default_va, default_tc, default_ta \
         = network.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE, LEARNING_RATE, reg_param=REG_PARAM,
                   eval_data=validation_data, 
@@ -79,7 +79,7 @@ def run_network(filename):
 
     # zip object has been unzipped and used so re-initialize
     # training_data, validation_data, test_data = mnist_loader.load_data_wrapper()
-    print("\n~Train Network 2 with cross-entropy cost fn and regularization using the large (unscaled)/old starting weights~")
+    print("\n~Train Network 2 with cross-entropy cost fn and L2 regularization using the large (unscaled)/old starting weights~")
     network.old_initializer()
     large_vc, large_va, large_tc, large_ta \
         = network.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE, LEARNING_RATE, reg_param=REG_PARAM,

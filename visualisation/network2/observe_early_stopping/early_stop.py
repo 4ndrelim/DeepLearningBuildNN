@@ -42,8 +42,7 @@ PLOT_SCALE_FACTOR = None # equals to size of validation data
                        
 def plot_network_with_early_stopping(filename):
     """
-    Train the network using both the default and the
-    large starting weights.
+    Train the network using scaled starting weights, with early stopping.
     Store the results in the file with name ``filename``,
     where they can later be used by ``make_plots``.
     """
@@ -63,7 +62,7 @@ def plot_network_with_early_stopping(filename):
     PLOT_SCALE_FACTOR = len(validation_data)
 
     network = network_2.Network(LAYERS, cost=network_2.CrossEntropyCost)
-    print("~Train Network 2 using the default (scaled) starting weights~")
+    print("~Train Network 2.2 using the default (scaled) starting weights~")
     eval_cost, eval_acc, trng_cost, trng_acc = network.SGD(training_data, NUM_EPOCHS, MINI_BATCH_SIZE,
                                                            LEARNING_RATE, reg_param=REG_PARAM,
                                                            eval_data=validation_data,

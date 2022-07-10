@@ -49,8 +49,9 @@ print(f"Accuracy on test data: {results}%\n\n")
 Neural network 2.0
 Similar to 1.0, with the addition of
 a) L2 regularization
-b) cross-entropy function
-c) better initialization of weights
+b) Cross-entropy function
+c) Better initialization of weights
+d) Early stopping
 """
 print(f"Current: Network 2.0 with L2 reg, cross-entropy cost, better initialisation of weights, early stopping of {EARLY_STOPPING} epochs.\n")
 net = network_2.Network(LAYERS, cost=network_2.CrossEntropyCost)
