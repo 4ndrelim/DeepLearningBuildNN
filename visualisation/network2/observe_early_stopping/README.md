@@ -1,4 +1,4 @@
-# Netowrk 2.2 with Early Stopping 
+# Network 2.2 with Early Stopping 
 
 **Success rate of sample model: 97.24%**
 
