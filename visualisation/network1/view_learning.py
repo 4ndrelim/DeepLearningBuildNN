@@ -16,7 +16,7 @@ import sys
 sys.path.append('../../') # required if run_and_plot_network() were run in this script
 import mnist_loader
 import network
-from hyperparams import NUM_EPOCHS, LEARNING_RATE, LAYERS, REG_PARAM, MINI_BATCH_SIZE
+from hyperparams import NUM_EPOCHS, LEARNING_RATE, LAYERS, MINI_BATCH_SIZE
 
 # Third-party libraries
 import matplotlib.pyplot as plt
@@ -38,8 +38,7 @@ PLOT_SCALE_FACTOR = None # equals to size of validation data
                        
 def run_and_plot_network(filename):
     """
-    Train the network using both the default and the
-    large starting weights.
+    Train the network with randomized (tend to be large) starting weights.
     Store the results in the file with name ``filename``,
     where they can later be used by ``make_plots``.
     """
