@@ -1,19 +1,52 @@
 # Build Neural Network with MNIST Database
-This repository contains code for the construction of basic neural networks from scratch. Dataset used is the MNIST digits database.
+This repository contains code for the construction of basic neural networks from scratch. Since it is a ground-up implementation, use of third-party libraries is kept to a minimum, with only *numpy* for efficient matrix computation and *matplotlib* to visualise the results, being used (at least up till Version 2 of the network). Dataset used is the MNIST digits database.
 
-## Installation Guide
+To better understand the code and computation in the algorithm, this [series](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) by 3Blue1Brown is highly recommended. Here he gives a comprehensive overview and provides intuition for the math behind the algorithm.
 
-## Overview
+## Installation Guide & Usage
+1. Clone with
+```
+git clone https://github.com/4ndrelim/DeepLearningBuildNN.git
+```
+2. Install third-party libraries (Note that this is sufficient up till Network V2.2; a requirements.txt will be made for Network 3). On the command line run:
+```
+$ pip3 install numpy
+```
+and
+```
+$ pip3 install matplotlib
+```
+3. Training your network 
+    * To view just the numerical results (**only the finalized network of each version** is included here), run *test.py* in your preferred code editor or in the terminal:
+    ```
+    python3 test.py
+    ```
+    * To visualise the results of the different versions and sub-versions, run *visualise.py* or in the terminal:
+    ```
+    python3 visualise.py
+    ```
+    * comment-out unwanted training sections to save time
+4. Toggling of hyperparameters
+    * Networks in *visualise.py* and *test.py* have their hyperparams specified and toggled in *hyperparams.py*
+    * It may be better to simply re-write hyperparams in each individual python file (in sub-directories under */visualisation*) if for some reasons, one wishes to run the several versions of Network 2 with different hyperparams in the same program (e.g *visualise.py*)
+    * It should be unsurprising that the results of each epoch and final accuracy is the same over many iterations of the program, since the same pseudo-random seed was specified; comment-out the seed if this behaviour is unwanted
+    * Hyperparams can still be better selected to further improve the model; most common and typical way of selection is done empirically as shown in [exploring suitable parameters](#version-2)
+5. Saving & loading your network
+    * A save and load function has been included in *network_2.py* to save the weights and biases of your trained model
+    * Instructions on usage are documented with the function
+    * Note that *network.py* does not have this save function but you should be able to copy-paste (save minor edits) since the implementation of save and load functions are independent of the network features
+
+## Overview of Sample Results
 With the hyperparameters specified in hyperparams.py:
 
 Network V1.0: 95.12% success rate
 
-<img src='./visualisation/network1/sample_accuracy.png' alt='Version 1.0' width='300'>
+<img src='./visualisation/network1/sample_accuracy.png' alt='Version 1.0' width='400'>
 <br></br>
 
 Network V2.2: 97.24% success rate
 
-<img src='./visualisation/network2/observe_early_stopping/sample_early_stop.png' alt='Network 2.2' width='300'>
+<img src='./visualisation/network2/observe_early_stopping/sample_early_stop.png' alt='Network 2.2' width='400'>
 <br></br>
 
 Netowrk V3.0: **PENDING**

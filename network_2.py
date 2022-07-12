@@ -257,10 +257,18 @@ class Network(object):
         cost += 0.5*(reg_param/len(data))*sum(np.linalg.norm(w)**2 for w in self.weights) 
         return cost
 
+    """
+    Saves a trained neural network to the file named <filename>
+
+    Usage:
+    In the same program as your model training, simply add the following line:
+
+        model.save(filename)
+
+    where model is an instance of the Network class from network_2.py
+    and filename is as suggested
+    """
     def save(self, filename):
-        """
-        Saves a trained neural network to the file named <filename>.
-        """
         data = {"sizes": self.sizes,
                 "weights": [weight.tolist() for weight in self.weights],
                 "biases": [bias.tolist() for bias in self.biases],
@@ -272,6 +280,14 @@ class Network(object):
 
 """
 Load a trained neural network
+Usage:
+In the program where you wish to re-create your model, simply add the following lines:
+
+    from network_2.py import load
+    network = load(filename)
+
+where filename is the file encapsulating features of the saved model.
+Note: make sure filename is in the same directory as the program else import accordingly
 """
 def load(filename):
     f = open(filename, "r")

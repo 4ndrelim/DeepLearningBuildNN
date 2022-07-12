@@ -26,10 +26,11 @@ np.random.seed(123581321)
 
 
 """
-NOTE:
+!!! General Note:
 1. Hyperparameters are specified in hyperparams.py
 2. Only the latest version of the network, complemented with additional features is uncommented
-3. If you for some reasons you wish to run several networks, re-write the hyperparameters to customise
+3. Re-write the hyperparameters to customise and explore
+4. Further instructions in the respective sections
 """
 
 
@@ -46,12 +47,20 @@ print(f"Accuracy on test data: {results}%\n\n")
 
 
 """
-Neural network 2.0
+Neural network 2.2
 Similar to 1.0, with the addition of
 a) L2 regularization
 b) Cross-entropy function
 c) Better initialization of weights
 d) Early stopping
+
+By default, only the accuracy on the validation set is displayed after each epoch.
+Toggle the 4 display modes accordingly to your preference.
+
+monitor_eval_cost: if set to True, gives the total cost incurred by the network on the evaluation data for that epoch
+monitor_eval_acc : if set to True, gives the total number of correct classification out of the total size of validation data
+monitor_trng_cost: if set to True, gives the total cost incurred by the network on the training data for that epoch
+monitor)trng_acc : if set to True, gives the total number of correct classification out of the total size of the training data
 """
 print(f"Current: Network 2.0 with L2 reg, cross-entropy cost, better initialisation of weights, early stopping of {EARLY_STOPPING} epochs.\n")
 net = network_2.Network(LAYERS, cost=network_2.CrossEntropyCost)
