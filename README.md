@@ -8,15 +8,17 @@ With the hyperparameters specified in hyperparams.py:
 
 Network V1.0: 95.12% success rate
 
-<img src='./visualisation/network1/sample_accuracy.png' alt='Version 1.0' width='200'>
+<img src='./visualisation/network1/sample_accuracy.png' alt='Version 1.0' width='300'>
 <br></br>
 
 Network V2.2: 97.24% success rate
 
-<img src='./visualisation/network2/observe_early_stopping/sample_early_stop.png' alt='Network 2.2' width='200'>
+<img src='./visualisation/network2/observe_early_stopping/sample_early_stop.png' alt='Network 2.2' width='300'>
 <br></br>
 
-Results can but emulated by running test.py
+Netowrk V3.0: **PENDING**
+
+Results can but emulated by running test.py and can likely be further be improved by training more epochs.
 
 ## Graphical Evaluation
 The different graphs below can be re-produced by running visualise.py
@@ -44,6 +46,10 @@ d) Early stopping
 
 3. Version 2.2 
     * Network implemented with early stopping. Read more [here](./visualisation/network2/observe_early_stopping/README.md).
+
+### Version 3
+Network is implemented further with convolutional layers before dense layers.
+*coming soon!*
 
 ## Resources & Credits
 Referenced ["Neural Networks and Deep Learning"](http://neuralnetworksanddeeplearning.com).
