@@ -195,8 +195,8 @@ class Network(object):
             
         # propagate backward
         output_del = (self.cost).delta(pre_activations[-1], activations[-1], y)
-        nabla_b[-1] = output_del
-        nabla_w[-1] = np.dot(output_del, activations[-2].transpose())
+        nabla_b[-1] = output_del * sigmoid_prime(pre_activations[-1])
+        nabla_w[-1] = np.dot(output_del * sigmoid_prime(pre_activations[-1]), activations[-2].transpose())
        
         for num_layer in range(2, self.num_layers): # input layers have no weights & biases
             pre = pre_activations[-num_layer + 1]
