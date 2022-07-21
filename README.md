@@ -1,7 +1,14 @@
 # Build Neural Network with MNIST Database
-This repository contains code for the construction of basic neural networks from scratch. Since it is a ground-up implementation, use of third-party libraries is kept to a minimum, with only *numpy* for efficient matrix computation and *matplotlib* to visualise the results, being used (at least up till Version 2 of the network). Dataset used is the MNIST digits database.
+This repository contains code for the construction of basic neural networks from scratch. Since it is a ground-up implementation, use of third-party libraries is kept to a minimum, with only *numpy* for efficient matrix computation and *matplotlib* to visualise the results, being used (at least up till Version 2 of the network). 
 
-To better understand the code and computation in the algorithm, this [series](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) by 3Blue1Brown is highly recommended. Here he gives a comprehensive overview and provides intuition for the math behind the algorithm.
+Dataset used: [**MNIST digits database**](http://yann.lecun.com/exdb/mnist/)
+
+To better understand the code and computation in the algorithm, this [series](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) by 3Blue1Brown is highly recommended. Here, he gives a comprehensive overview and provides intuition for the math behind the algorithm.
+
+### **UPDATE**: 
+Note that at the time of writing, I realised the axis display for the graphs were slightly off by 1 (results for epoch 1 were displayed at epoch 0 and so on). Also, there was a slight error in the backpropagation formula (though, after training for a certain number of epochs, this margin becomes very negligible. Still for correctness sake, the updated formula was committed) for [network 2](#version-2) that will yield you slightly different results from the sample shown below even with the exact same set-up and clone.
+
+The results graph for network 1 has been correctly formatted as [shown](#overview-of-sample-results). That said, the models have been trained, images saved, and displayed and I will leave it as such for the remaining. Feel free to clone and run the program for the respective segments to verify if there is any notiiceable difference, or just tinker with the parameters and train your network to obtain better results.
 
 ## Installation Guide & Usage
 1. Clone with
