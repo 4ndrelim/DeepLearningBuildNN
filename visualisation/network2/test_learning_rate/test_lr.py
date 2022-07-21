@@ -25,7 +25,6 @@ import numpy as np
 # By default, uses the values specified in the root folder hyperparams.py
 # Note you may wish to toggle display settings/scale
 # on the y-axis should the results go out of range
-
 ##NUM_EPOCHS = 30
 ##LEARNING_RATE = 0.4
 ## HIDDEN_LAYER = [30]
@@ -91,12 +90,7 @@ def make_plot(file_name, learning_rates):
     ax.set_xlim([0, NUM_EPOCHS])
     ax.set_xlabel('Epoch')
     ax.set_ylabel('Cost')
+    ax.set_ylim([0, 3.0])
     plt.legend(loc='upper right')
     plt.show(block=False)
-        
-    
-    
-        
-    
-    
     

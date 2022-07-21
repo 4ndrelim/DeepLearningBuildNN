@@ -100,8 +100,12 @@ class Network(object):
         if eval_data:
             eval_data = list(eval_data) # if it is given in zipped form
             n_eval_data = len(eval_data)
-        eval_cost, eval_acc = [], []
-        trng_cost, trng_acc = [], []
+            
+        # include results data of an untrained network
+        eval_cost = [self.total_cost(eval_data, reg_param, convert=True)]
+        eval_acc  = [self.accuracy(eval_data)]
+        trng_cost = [self.total_cost(training_data, reg_param)]
+        trng_acc  = [self.accuracy(training_data, convert=True)]
 
         # implement early stopping
         best_accuracy = 1

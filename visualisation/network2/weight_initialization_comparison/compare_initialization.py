@@ -112,9 +112,9 @@ def make_plot(filename):
     large_va = [100.0 * x/PLOT_SCALE_FACTOR for x in large_va]
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(np.arange(0, NUM_EPOCHS, 1), large_va, color='#FFA933',
+    ax.plot(np.arange(0, NUM_EPOCHS+1, 1), large_va, color='#FFA933',
             label="Old approach to weight initialization")
-    ax.plot(np.arange(0, NUM_EPOCHS, 1), default_va, color='#2A6EA6', 
+    ax.plot(np.arange(0, NUM_EPOCHS+1, 1), default_va, color='#2A6EA6', 
             label="New approach to weight initialization")
     ax.set_xlim([0, NUM_EPOCHS])
     ax.set_xlabel('Epoch')

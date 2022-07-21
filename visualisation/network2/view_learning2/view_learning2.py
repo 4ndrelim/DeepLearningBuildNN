@@ -93,7 +93,7 @@ def make_plot(filename):
     validation_results = [100.0 * x/PLOT_SCALE_FACTOR for x in va]
     fig = plt.figure()
     ax = fig.add_subplot(111)
-    ax.plot(np.arange(0, NUM_EPOCHS, 1), validation_results, color='#FFA933',
+    ax.plot(np.arange(0, NUM_EPOCHS+1, 1), validation_results, color='#FFA933',
             label="Accuracy (%) after each epoch")
     ax.set_xlim([0, NUM_EPOCHS])
     ax.set_xlabel('Epoch')
