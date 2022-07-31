@@ -96,16 +96,16 @@ class Network(object):
             monitor_trng_cost=False,
             monitor_trng_acc=False,
             early_stopping=0):
-        
+      
         if eval_data:
             eval_data = list(eval_data) # if it is given in zipped form
             n_eval_data = len(eval_data)
             
         # include results data of an untrained network
-        eval_cost = [self.total_cost(eval_data, reg_param, convert=True)]
-        eval_acc  = [self.accuracy(eval_data)]
-        trng_cost = [self.total_cost(training_data, reg_param)]
-        trng_acc  = [self.accuracy(training_data, convert=True)]
+        eval_cost = []
+        eval_acc  = []
+        trng_cost = []
+        trng_acc  = []
 
         # implement early stopping
         best_accuracy = 1
@@ -113,12 +113,14 @@ class Network(object):
         
         training_data = list(training_data) # if orginally zipped
         n = len(training_data)
-        for i in range(epochs):
-            random.shuffle(training_data) # randomly shuffles training data - prevents model from learning the order of training data/unwanted bias
-            mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
-            for batch in mini_batches:
-                self.update_mini_batch(batch, lr, reg_param, len(training_data))
-            print(f"Epoch {i+1} completed.")
+        for i in range(epochs+1):
+            if i > 0: # run when begins training, epoch 0 considered to be untrained network
+                random.shuffle(training_data) # randomly shuffles training data - prevents model from learning the order of training data/unwanted bias
+                mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
+                for batch in mini_batches:
+                    self.update_mini_batch(batch, lr, reg_param, len(training_data))
+
+            print(f"Epoch {i} completed.")
             
             if monitor_trng_cost:
                 cost = self.total_cost(training_data, reg_param)
@@ -152,7 +154,7 @@ class Network(object):
                 if unchangedEpochs >= early_stopping:
                     return (eval_cost, eval_acc, trng_cost, trng_acc)
         
-        
+       
         return (eval_cost, eval_acc, trng_cost, trng_acc)
             
 

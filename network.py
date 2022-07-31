@@ -53,24 +53,22 @@ class Network():
         training_data = list(training_data) # for shuffling and finding len
         n = len(training_data)
         validation_results = []
-
-        # append results of network with initial randomized weights
-        validation_results.append(self.evaluate(validation_data))
                                   
-        for i in range(epochs):
-            random.shuffle(training_data) # randomly shuffles training data - prevents model from learning the order of training data/unwanted bias
-            mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
-            for batch in mini_batches:
-                self.update_mini_batch(batch, lr)
+        for i in range(epochs+1):
+            if i > 0: # run when begins training, epoch 0 considered to be untrained network
+                random.shuffle(training_data) # randomly shuffles training data - prevents model from learning the order of training data/unwanted bias
+                mini_batches = [training_data[j:j+mini_batch_size] for j in range(0, n, mini_batch_size)]
+                for batch in mini_batches:
+                    self.update_mini_batch(batch, lr)
             # done with training, evaluate if validation_data provided
             if validation_data:
                 validation_data = list(validation_data)
                 n_validate = len(validation_data)
                 accuracy = self.evaluate(validation_data)
                 validation_results.append(accuracy)
-                print(f"Epoch {i+1} completed: {accuracy / n_validate} accuracy on validation dataset")
+                print(f"Epoch {i} completed: {accuracy / n_validate} accuracy on validation dataset")
             else:
-                print(f"Epoch {i+1} completed.")
+                print(f"Epoch {i} completed.")
         return validation_results
 
     """
