@@ -110,7 +110,18 @@ Network is implemented further with convolutional layers before dense layers.
 *coming soon!*
 
 ## Data Augmentation & Expansion
-The original dataset of 50,000 training images was expanded to 250,000 images with a series of up-down-left-right translation of pixels. Data augmentation generally helps to regularize the network and avoid over-fitting of model. The greatly expanded dataset gave the model more training e.gs and with variation, hence, re-running **network 2** in *test.py* **easily gave results of > 98% accuracy** (98.12%). Note that only a basic form of augmentation was done here, one can consider implement the following to achieve even better results:
+The original dataset of 50,000 training images was expanded to 250,000 images with a series of up-down-left-right translation of pixels. Data augmentation generally helps to regularize the network and avoid over-fitting of model. The greatly expanded dataset gave the model more training e.gs and with variation, hence, re-running **network 2** in *test.py* **easily gave results of > 98% accuracy** (98.12%). 
+
+### How To Use:
+**If you wish to download the dataset but not run the network yet**
+1. Run expand_mnist_data.py in the root folder and the expanded data should be in data/
+2. In mnist_loader.py, simply uncomment the line to load the expanded data file
+3. Launch the respective programs and run as per normal
+### OR (download just download dataset and run the network)
+1. In mnist_loader.py, simply uncomment the 2 lines to check and load expanded data file
+2. Launch the respective programs and run as per normal
+
+### Note that only a basic form of augmentation was done here, one can consider implement the following to achieve even better results:
 1. Rotating (However, in the context of digits, rotation must not be done to a large extent, case in point: '6' and '9' may be misclassified)
 2. More shifts
 3. Random elastic deformations
