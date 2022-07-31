@@ -2,12 +2,17 @@
 A library to load MNIST image data.
 Directly referenced from sample code in /provided_code_old
 Updated for compatibility with Python 3
+
+NOTE: Uncomment the line that loads expanded dataset in load_data()
+      to use the expanded/augmented dataset!
 """
 
 #### Libraries
 # Standard library
 import pickle
 import gzip
+
+from expand_mnist_data import expand
 
 # Third-party libraries
 import numpy as np
@@ -32,6 +37,10 @@ def load_data():
     below.
     """
     f = gzip.open('./data/mnist.pkl.gz', 'rb')
+    ## UNCOMMENT BELOW AND COMMENT ABOVE TO USE AUGMENTED DATASET
+##    expand()
+##    f = gzip.open('./data/mnist_expanded.pkl.gz', 'rb')
+    
     training_data, validation_data, test_data = pickle.load(f, encoding="latin1")
     f.close()
     return (training_data, validation_data, test_data)
