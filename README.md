@@ -5,40 +5,58 @@ Dataset used: [**MNIST digits database**](http://yann.lecun.com/exdb/mnist/)
 
 To better understand the code and computation in the algorithm, this [series](https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi) by 3Blue1Brown is highly recommended. Here, he gives a comprehensive overview and provides intuition for the math behind the algorithm.
 
+## Table of Contents:
+1. [Latest Updates](#update)
+2. [Installation Guide](#installation-guide)
+3. [Usage](#usage)
+4. [Overview of My Results](#overview-of-sample-results)
+5. [Interpreting Different Graphs](#graphical-evaluation)
+6. [Expansion With Data Augmentation](#data-augmentation--expansion)
+7. [Credits](#resources--credits)
+
 ### **UPDATE**: 
-Note that at the time of writing, I realised the axis display for the graphs were slightly off by 1 (results for epoch 1 were displayed at epoch 0 and so on). Also, there was a slight error in the backpropagation formula (though, after training for a certain number of epochs, this margin becomes very negligible. Still for correctness sake, the updated formula was committed) for [network 2](#version-2) that will yield you slightly different results from the sample shown below even with the exact same set-up and clone.
+Note that at the time of writing, I realised the axis display for the graphs were slightly off by 1 (results for epoch 1 were displayed at epoch 0 and so on). Also, there was a slight error in the backpropagation formula for [network 2](#version-2) that will yield you slightly different results from the sample shown below even with the exact same set-up and clone (though, after training for a certain number of epochs, this margin becomes very negligible. Still for correctness sake, the updated formula was committed).
 
 The results graph for network 1 has been correctly formatted as [shown](#overview-of-sample-results). That said, the models have been trained, images saved, and displayed and I will leave it as such for the remaining. Feel free to clone and run the program for the respective segments to verify if there is any notiiceable difference, or just tinker with the parameters and train your network to obtain better results.
 
-## Installation Guide & Usage
+**NEW ADDITION**: To further improve the results of your model, see [here](#data-augmentation--expansion)!
+
+## Installation Guide
 1. Clone with
-```
-git clone https://github.com/4ndrelim/DeepLearningBuildNN.git
-```
+    ```
+    git clone https://github.com/4ndrelim/DeepLearningBuildNN.git
+    ```
 2. Install third-party libraries (Note that this is sufficient up till Network V2.2; a requirements.txt will be made for Network 3). On the command line run:
-```
-$ pip3 install numpy
-```
-and
-```
-$ pip3 install matplotlib
-```
-3. Training your network 
+    ```
+    $ pip3 install numpy
+    ```
+    and
+    ```
+    $ pip3 install matplotlib
+    ```
+3. Training your network (via command-line on the terminal)
     * To view just the numerical results (**only the finalized network of each version** is included here), run *test.py* in your preferred code editor or in the terminal:
     ```
-    python3 test.py
+    $ python3 test.py
     ```
     * To visualise the results of the different versions and sub-versions, run *visualise.py* or in the terminal:
     ```
-    python3 visualise.py
+    $ python3 visualise.py
     ```
     * comment-out unwanted training sections to save time
-4. Toggling of hyperparameters
+4. Training your network (IDLE)
+    * If you do not already have IDLE (environment for Python) installed, install [here](https://www.python.org/downloads/).
+    * To run the networks, launch *test.py* or *visualise.py* via IDLE and run the program.
+
+
+## Usage
+1. Toggling of hyperparameters
     * Networks in *visualise.py* and *test.py* have their hyperparams specified and toggled in *hyperparams.py*
     * It may be better to simply re-write hyperparams in each individual python file (in sub-directories under */visualisation*) if for some reasons, one wishes to run the several versions of Network 2 with different hyperparams in the same program (e.g *visualise.py*)
     * It should be unsurprising that the results of each epoch and final accuracy is the same over many iterations of the program, since the same pseudo-random seed was specified; comment-out the seed if this behaviour is unwanted
     * Hyperparams can still be better selected to further improve the model; most common and typical way of selection is done empirically as shown in [exploring suitable parameters](#version-2)
-5. Saving & loading your network
+
+2. Saving & loading your network
     * A save and load function has been included in *network_2.py* to save the weights and biases of your trained model
     * Instructions on usage are documented with the function
     * Note that *network.py* does not have this save function but you should be able to copy-paste (save minor edits) since the implementation of save and load functions are independent of the network features
@@ -90,6 +108,12 @@ d) Early stopping
 ### Version 3
 Network is implemented further with convolutional layers before dense layers.
 *coming soon!*
+
+## Data Augmentation & Expansion
+The original dataset of 50,000 training images was expanded to 250,000 images with a series of up-down-left-right translation of pixels. Data augmentation generally helps to regularize the network and avoid over-fitting of model. The greatly expanded dataset gave the model more training e.gs and with variation, hence, re-running **network 2** in *test.py* **easily gave results of > 98% accuracy** (98.12%). Note that only a basic form of augmentation was done here, one can consider implement the following to achieve even better results:
+1. Rotating (However, in the context of digits, rotation must not be done to a large extent, case in point: '6' and '9' may be misclassified)
+2. More shifts
+3. Random elastic deformations
 
 ## Resources & Credits
 Referenced ["Neural Networks and Deep Learning"](http://neuralnetworksanddeeplearning.com).
